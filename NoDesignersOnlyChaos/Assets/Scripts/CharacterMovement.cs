@@ -8,28 +8,22 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float moveSpeed;
     private Rigidbody2D rb;
 
+    float horizontal;
+    float vertical;
+    
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    private void Update()
     {
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.velocity = Vector2.left * moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.velocity = Vector2.right * moveSpeed;
-        }
-        if (Input.GetKey(KeyCode.W))
-        {
-            transform.Translate(Vector3.up * Time.deltaTime * moveSpeed);
-        }
-        if (Input.GetKey(KeyCode.S))
-        {
-            transform.Translate(Vector3.down * Time.deltaTime * moveSpeed);
-        }
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
+    }
+
+    void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + new Vector2(horizontal, vertical)*Time.fixedDeltaTime*moveSpeed);
     }
 }
